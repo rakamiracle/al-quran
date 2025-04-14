@@ -50,9 +50,9 @@ const Navbar = () => {
             </div>
           </li>
           <li className="nav-item">
-            <a href="#" className="nav-link text-white">
-              <i className="bi bi-gear"></i> Settings
-            </a>
+            <Link to="/About" className="nav-link text-white">
+              <i className="bi bi-info-circle"></i> About
+            </Link>
           </li>
         </ul>
       </div>
