@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 const TafsirSurat = () => {
   const { id } = useParams();
   const [tafsir, setTafsir] = useState([]);
+  const [suratInfo, setSuratInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -17,8 +18,9 @@ const TafsirSurat = () => {
       }
       const data = await response.json();
       console.log("Data tafsir dari API:", data);
-      if (data.code === 200 && data.data && data.data.tafsir) {
-        setTafsir(data.data.tafsir);
+      if (data.code === 200 && data.data) {
+        setTafsir(data.data.tafsir || []);
+        setSuratInfo(data.data.surat || null);
       } else {
         throw new Error("Data tafsir tidak ditemukan");
       }
@@ -39,20 +41,34 @@ const TafsirSurat = () => {
     }
   }, [id]);
 
-  if (loading) return <p className="text-white">Memuat...</p>;
-  if (error) return <p className="text-white">Error: {error}</p>;
-  if (!tafsir.length) return <p className="text-white">Tafsir tidak ditemukan.</p>;
+  if (loading) return <div className="text-white text-center my-5">Memuat...</div>;
+  if (error) return <div className="alert alert-danger my-3">{error}</div>;
+  if (!tafsir.length) return <div className="text-white text-center my-5">Tafsir tidak ditemukan.</div>;
 
   return (
-    <div className="h-100 overflow-auto">
-      <h2 className="text-white mb-4">Tafsir Surat</h2>
+    <div className="container-fluid py-3">
+      {suratInfo && (
+        <div className="text-center mb-4">
+          <h2 className="text-white">{suratInfo.namaLatin}</h2>
+          <p className="text-white-50 mb-4">
+            {suratInfo.nama} • {suratInfo.tempatTurun} • {suratInfo.jumlahAyat} Ayat
+          </p>
+        </div>
+      )}
+
       <div className="row g-3">
-        {tafsir.map((item, index) => (
-          <div key={index} className="col-12">
-            <div className="card bg-dark text-white border-secondary">
+        {tafsir.map((item) => (
+          <div key={item.ayat} className="col-12">
+            <div className="card bg-dark text-white border-secondary mb-2">
+              <div className="card-header bg-dark bg-opacity-75">
+                <h5 className="mb-0">Ayat {item.ayat}</h5>
+              </div>
               <div className="card-body">
-                <h5 className="card-title text-white">Ayat {item.ayat}</h5>
-                <p className="card-text">{item.teks}</p>
+                <div className="text-white-50">
+                  {item.teks.split('\n').map((paragraph, idx) => (
+                    <p key={idx} className="mb-3">{paragraph}</p>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
