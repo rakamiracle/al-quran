@@ -1,12 +1,12 @@
-import React from 'react'
+import React from "react";
 
 const Dashboard = () => {
   return (
-    <>
-        <h4>Selamat Datang</h4>
-        <p>di Aplikasi Qur'an Web</p>
-    </>
-  )
-}
+    <div className="h-100">
+      <h4 className="text-white mb-3">Selamat Datang</h4>
+      <p className="text-white">di Aplikasi Qur'an Web</p>
+    </div>
+  );
+};
 
-export default Dashboard
+export default Dashboard;

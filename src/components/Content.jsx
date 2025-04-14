@@ -1,13 +1,10 @@
 import React from "react";
 
-const Content = ({children}) => {
+const Content = ({ children }) => {
   return (
-    <>
-      {/* Main Content */}
-      <div className="p-4">
-        <div>{children}</div>
-      </div>
-    </>
+    <div className="bg-dark text-white h-100 p-4">
+      {children}
+    </div>
   );
 };
 
